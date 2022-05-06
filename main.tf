@@ -14,8 +14,8 @@ data "azurerm_resource_group" "valheim" {
 
 resource "azurerm_kubernetes_cluster" "gb3cluster" {
   name                = "gb3scluster"
-  location            = data.azurerm_resource_group.example.location
-  resource_group_name = data.azurerm_resource_group.example.name
+  location            = data.azurerm_resource_group.valheim.location
+  resource_group_name = data.azurerm_resource_group.valheim.name
   dns_prefix          = "exampleaks1"
 
   default_node_pool {
