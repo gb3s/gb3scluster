@@ -9,7 +9,7 @@ terraform {
 
 data "azurerm_resource_group" "valheim" {
   name     = "valheim"
-  location = "East US"
+  location = "EastUS"
 }
 
 resource "azurerm_kubernetes_cluster" "gb3cluster" {
