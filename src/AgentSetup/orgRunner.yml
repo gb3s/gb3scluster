@@ -4,7 +4,10 @@ metadata:
   name: gb3s-runner
   namespace: actions-runner-system
   labels:
-    aadpodidbinding: gb3s-cluster
 spec:
   organization: gb3s
   env: []
+  template:
+    metadata:
+      labels:
+        aadpodidbinding: gb3s-cluster
