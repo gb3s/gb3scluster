@@ -99,6 +99,9 @@ resource "azurerm_kubernetes_cluster" "cluster" {
     type = "UserAssigned"
     identity_ids = [ azurerm_user_assigned_identity.cluster_id.id ]
   }
+}
 
+output "cluster_identity" {
+  value = azurerm_user_assigned_identity.cluster_id.principal_id
 }
 

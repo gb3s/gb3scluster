@@ -9,7 +9,7 @@ resource "azurerm_subnet" "jumpnet" {
   name                 = "internal"
   resource_group_name  = var.network.group
   virtual_network_name = var.network.name
-  address_prefixes     = ["10.0.2.0/24"]
+  address_prefixes     = ["10.0.3.64/26"]
 }
 
 resource "azurerm_network_interface" "jumpbox_nic" {

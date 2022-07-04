@@ -21,7 +21,7 @@ resource "azurerm_subnet" "vaultnet" {
   enforce_private_link_endpoint_network_policies = true
   resource_group_name  = var.network.group
   virtual_network_name = var.network.name
-  address_prefixes     = [ "10.0.0.0/24" ]
+  address_prefixes     = [ "10.0.3.128/26" ]
 }
 
 resource "azurerm_private_dns_zone" "vault_dns" {

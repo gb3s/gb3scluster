@@ -41,6 +41,21 @@ module "aks" {
   }
 }
 
+module "acr" {
+  source = "./acr"
+  
+  cluster_identity = module.aks.cluster_identity
+  current = data.azurerm_client_config.current
+  cluster_name = var.cluster_name
+  location = var.location
+  admin_user = var.admin_user
+  network = {
+    name  = azurerm_virtual_network.network.name
+    group = azurerm_resource_group.network.name
+    id    = azurerm_virtual_network.network.id
+  }
+}
+
 module "jumpbox" {
   source = "./jumpbox"
 

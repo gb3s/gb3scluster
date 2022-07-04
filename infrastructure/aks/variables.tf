@@ -25,3 +25,4 @@ variable "network" {
 
 variable "subscription_id" {
 }
+
