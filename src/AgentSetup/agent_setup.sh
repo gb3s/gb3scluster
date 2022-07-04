@@ -9,6 +9,8 @@ helm upgrade aad-pod-identity aad-pod-identity/aad-pod-identity \
   --set nmi.allowNetworkPluginKubenet=true \
   --install
 
+kubectl apply -f agentIdentity.yml -n actions-runner-system
+
 helm upgrade \
   cert-manager jetstack/cert-manager \
   --namespace cert-manager \
