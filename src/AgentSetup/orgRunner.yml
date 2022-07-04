@@ -6,5 +6,5 @@ metadata:
 spec:
   organization: gb3s
   env: []
-  labels:
-    - aadpodidbinding: gb3s-cluster
+  labels: |
+    aadpodidbinding: gb3s-cluster
