@@ -9,8 +9,6 @@ helm upgrade aad-pod-identity aad-pod-identity/aad-pod-identity \
   --set nmi.allowNetworkPluginKubenet=true \
   --install
 
-kubectl apply -f agentIdentity.yml -n actions-runner-system
-
 helm upgrade \
   cert-manager jetstack/cert-manager \
   --namespace cert-manager \
@@ -19,8 +17,11 @@ helm upgrade \
   --set installCRDs=true \
   --install
 
-helm upgrade --install --namespace actions-runner-system --create-namespace \
+kubectl create ns actions-runner-system
+kubectl apply -f agentIdentity.yml -n actions-runner-system
+
+helm upgrade --install --namespace actions-runner-system  \
   --wait actions-runner-controller actions-runner-controller/actions-runner-controller \
   --values values.yml
   
-kubectl apply -f repoRunner.yml
+kubectl apply -f orgRunner.yml
