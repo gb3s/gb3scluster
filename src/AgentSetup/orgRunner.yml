@@ -3,7 +3,6 @@ kind: Runner
 metadata:
   name: gb3s-runner
   namespace: actions-runner-system
-  labels:
 spec:
   organization: gb3s
   env: []
