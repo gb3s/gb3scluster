@@ -31,9 +31,14 @@ module "aks" {
   cluster_name = var.cluster_name
   location = var.location
   admin_user = var.admin_user
-  current = data.azurerm_client_config.current
-  network_id = azurerm_virtual_network.network.id
-  keyavult_id = module.keyvault.keyavult_id
+  subscription_id = data.azurerm_client_config.current.subscription_id
+  keyvault_id = module.keyvault.keyavult_id
+
+  network = {
+    group = azurerm_resource_group.network.name
+    name  = azurerm_virtual_network.network.name
+    id    = azurerm_virtual_network.network.id
+  }
 }
 
 module "jumpbox" {
@@ -42,7 +47,10 @@ module "jumpbox" {
   cluster_name = var.cluster_name
   location = var.location
   admin_user = var.admin_user
-  network = azurerm_virtual_network.network.name
+  network = {
+    name  = azurerm_virtual_network.network.name
+    group = azurerm_resource_group.network.name
+  }
 }
 
 module "bastion" {
@@ -51,7 +59,10 @@ module "bastion" {
   cluster_name = var.cluster_name
   location = var.location
   admin_user = var.admin_user
-  network = azurerm_virtual_network.network
+  network = {
+    name  = azurerm_virtual_network.network.name
+    group = azurerm_resource_group.network.name
+  }
 }
 
 module "keyvault" {
@@ -61,6 +72,9 @@ module "keyvault" {
   cluster_name = var.cluster_name
   location = var.location
   admin_user = var.admin_user
-  network = azurerm_virtual_network.network.
-
+  network = {
+    name  = azurerm_virtual_network.network.name
+    group = azurerm_resource_group.network.name
+    id    = azurerm_virtual_network.network.id
+  }
 }

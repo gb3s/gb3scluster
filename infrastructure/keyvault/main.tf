@@ -19,9 +19,9 @@ resource "azurerm_key_vault" "cluster_vault" {
 resource "azurerm_subnet" "vaultnet" {
   name = "${var.cluster_name}-vaultnet"
   enforce_private_link_endpoint_network_policies = true
-  resource_group_name = azurerm_resource_group.keyvault_group.name
+  resource_group_name  = var.network.group
   virtual_network_name = var.network.name
-  address_prefixes = [ "10.0.0.0/24" ]
+  address_prefixes     = [ "10.0.0.0/24" ]
 }
 
 resource "azurerm_private_dns_zone" "vault_dns" {
@@ -30,7 +30,7 @@ resource "azurerm_private_dns_zone" "vault_dns" {
 }
 
 resource "azurerm_private_endpoint" "vault_pe" {
-  name                = "vault-endpoint"
+  name                = "${var.cluster_name}-vault-endpoint"
   location            = azurerm_resource_group.keyvault_group.location
   resource_group_name = azurerm_resource_group.keyvault_group.name
   subnet_id           = azurerm_subnet.vaultnet.id
@@ -52,7 +52,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "vault_dns_link" {
   name                  = "${var.cluster_name}-link-${azurerm_key_vault.cluster_vault.name}"
   resource_group_name   = azurerm_resource_group.keyvault_group.name
   private_dns_zone_name = azurerm_private_dns_zone.vault_dns.name
-  virtual_network_id    = var.network
+  virtual_network_id    = var.network.id
   registration_enabled  = false
 }
 

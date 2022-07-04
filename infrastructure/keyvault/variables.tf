@@ -11,7 +11,11 @@ variable "admin_user" {
 }
 
 variable "network" {
-    
+    type = object({
+        name  = string
+        group = string
+        id    = string
+    })
 }
 
 variable "current" {

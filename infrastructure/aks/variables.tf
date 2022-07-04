@@ -10,12 +10,18 @@ variable "admin_user" {
     type = string
 }
 
-variable "keyavult_id" {
+variable "keyvault_id" {
     type = string
 }
 
-variable "network_id" {
+variable "network" {
+  description = "Values for Subnets, and network resources"
+  type = object({
+    id = string 
+    name = string
+    group = string
+  })
 }
 
-variable "current" {
+variable "subscription_id" {
 }

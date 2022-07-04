@@ -11,4 +11,8 @@ variable "admin_user" {
 }
 
 variable "network" {
+    type = object({
+        group = string
+        name  = string
+    })
 }

@@ -1,12 +1,12 @@
 
 resource "azurerm_resource_group" "bastion" {
   name = "${var.cluster_name}-bastion"
-  location = "East US"
+  location = var.location
 }
 
 resource azurerm_subnet bastnet {
   name                 = "AzureBastionSubnet"
-  resource_group_name  = "${var.cluster_name}"
+  resource_group_name  = var.network.group
   virtual_network_name = var.network.name
   address_prefixes     = ["10.0.3.0/24"]
 }
