@@ -3,6 +3,7 @@ apiVersion: actions.summerwind.dev/v1alpha1
 kind: Runner
 metadata:
   name: example-runner
+  namespace: actions-runner-system
 spec:
-  repository: gb3s/gb3scluster
+  organization: gb3s
   env: []
