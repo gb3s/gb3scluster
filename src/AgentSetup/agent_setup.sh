@@ -5,7 +5,7 @@ helm upgrade \
   --namespace cert-manager \
   --create-namespace \
   --version v1.8.2 \
-  --set installCRDs=true
+  --set installCRDs=true \
   --install
 
 helm repo add actions-runner-controller https://actions-runner-controller.github.io/actions-runner-controller
