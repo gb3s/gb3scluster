@@ -6,8 +6,8 @@ metadata:
 spec:
   replicas: 1
   template:  
+    metadata:
+      labels: 
+        aadpodidbinding: gb3s-cluster
     spec:
       organization: gb3s
-      metadata:
-        labels: 
-          aadpodidbinding: gb3s-cluster
