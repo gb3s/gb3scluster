@@ -1,3 +1,6 @@
+podLabels:
+  aadpodidbinding: gb3s-cluster
+  
 authSecret:
   create: true
   github_app_id: "216613"
