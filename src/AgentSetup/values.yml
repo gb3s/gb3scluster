@@ -1,7 +1,7 @@
 authSecret:
   create: true
   github_app_id: "216613"
-  github_app_installation_id: "27073459"
+  github_app_installation_id: "27080785"
   github_app_private_key: |
     -----BEGIN RSA PRIVATE KEY-----
     MIIEpQIBAAKCAQEA0m3CursfM//bq/BRZch9FdFxVdBjdkBWsfTKwPYyqWzPkHFY
