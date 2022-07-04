@@ -12,3 +12,5 @@ helm repo add actions-runner-controller https://actions-runner-controller.github
 helm upgrade --install --namespace actions-runner-system --create-namespace \
   --wait actions-runner-controller actions-runner-controller/actions-runner-controller \
   --values values.yml
+  
+kubectl apply -f repoRunner.yml
