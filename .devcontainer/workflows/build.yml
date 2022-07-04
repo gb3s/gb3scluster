@@ -1,0 +1,18 @@
+name: build_image
+on:
+  push:
+    paths:
+      - "src/funcSetup/**"
+jobs:
+  build:
+    runs-on: Default
+    steps:
+      - name: ACR build
+        id: acr
+        uses: azure/acr-build@v1
+        with:
+          registry: gb3s-registry
+          repository: private.func
+          image: image
+          folder: src/funcSetup
+          dockerfile: ../../dockerfiles/Dockerfile
