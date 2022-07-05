@@ -2,7 +2,7 @@ name: build_image
 on: [push]
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: gb3s
     steps:
       - uses: actions/checkout@v3
       - uses: azure/docker-login@v1
