@@ -6,5 +6,5 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: azure/docker-login@v1
-          with:
-            login-server: 'gb3sacr.privatelink.azurecr.io.' # default: index.docker.io
+        with:
+          login-server: 'gb3sacr.privatelink.azurecr.io.' # default: index.docker.io
