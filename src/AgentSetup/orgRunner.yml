@@ -11,4 +11,4 @@ spec:
         aadpodidbinding: gb3s-cluster
     spec:
       repository: gb3s/gb3scluster
-      image: gb3sacr.privatelink.azurecr.io/gb3s/runner:latest
+      image: gb3sacr.azurecr.io/gb3s/runner:latest
