@@ -12,3 +12,5 @@ jobs:
             subscription-id: 4dc1bd33-fef6-413d-aa31-bc639452a449
       - uses: actions/checkout@v3
       - run: az login --identity
+
+      #test
