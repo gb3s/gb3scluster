@@ -10,5 +10,5 @@ spec:
       labels: 
         aadpodidbinding: gb3s-cluster
     spec:
-      organization: gb3s
+      repository: gb3s/gb3scluster
       image: gb3sacr.azurecr.io/gb3s/runner:latest
