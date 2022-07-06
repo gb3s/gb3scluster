@@ -6,7 +6,7 @@ metadata:
 spec:
   type: 0
   resourceID: /subscriptions/4dc1bd33-fef6-413d-aa31-bc639452a449/resourcegroups/gb3s/providers/Microsoft.ManagedIdentity/userAssignedIdentities/gb3s-cluster
-  clientID: c5e77d8d-6a18-4871-93dc-474c8a084e56
+  clientID: 340af2c4-3165-46d9-9adf-c24fd21f6873
 ---
 apiVersion: "aadpodidentity.k8s.io/v1"
 kind: AzureIdentityBinding
