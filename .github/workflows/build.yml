@@ -1,8 +1,13 @@
 name: build_image
-on: [push]
+on: [push, workflow_dispatch]
 jobs:
+  build0:
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo "wazzzaup"
+    
   build:
     runs-on: self-hosted
     steps:
       - run: az login --identity
-##
+      
