@@ -1,5 +1,18 @@
 podLabels:
   aadpodidbinding: gb3s-cluster
+
+githubWebhookServer:
+  enabled: true
+  secret:
+    enabled: true
+    create: true
+  service:
+    type: ClusterIP
+    ports:
+    - name: http
+      port: 80
+      targetPort: http
+      protocol: TCP
   
 authSecret:
   create: true
