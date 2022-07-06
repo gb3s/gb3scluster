@@ -11,3 +11,4 @@ spec:
         aadpodidbinding: gb3s-cluster
     spec:
       organization: gb3s
+      image: gb3sacr.azurecr.io/gb3s/runner:latest
