@@ -4,5 +4,11 @@ jobs:
   build:
     runs-on: self-hosted
     steps:
+      - name: 'Az CLI login'
+        uses: azure/login@v1
+        with:
+            client-id: 340af2c4-3165-46d9-9adf-c24fd21f6873
+            tenant-id: 90928a04-9c35-4ad8-9b74-f2d225f9b0e9
+            subscription-id: 4dc1bd33-fef6-413d-aa31-bc639452a449
       - uses: actions/checkout@v3
       - run: az login --identity
