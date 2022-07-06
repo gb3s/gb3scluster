@@ -1,5 +1,5 @@
 name: build_image
-on: [push]
+on: [push, workflow_dispatch]
 jobs:
   build:
     runs-on: self-hosted
