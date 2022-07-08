@@ -18,16 +18,15 @@ helm upgrade \
   --set installCRDs=true \
   --install
 
-kubectl create ns actions-runner-system
 kubectl apply -f agentIdentity.yml -n actions-runner-system
 
-helm upgrade --install --namespace actions-runner-system  \
+helm upgrade --install --namespace actions-runner-system --create-namespace  \
   --wait actions-runner-controller actions-runner-controller/actions-runner-controller \
   --values values.yml
   
 kubectl apply -f orgRunner.yml
 
-helm install azure-api-management-gateway \
+helm upgrade azure-api-management-gateway \
              --set gateway.configuration.uri='gb3s-apim.configuration.azure-api.nethttps://gb3s-apim.management.azure-api.net/subscriptions/4dc1bd33-fef6-413d-aa31-bc639452a449/resourceGroups/gb3s/providers/Microsoft.ApiManagement/service/gb3s-apim?api-version=2021-01-01-preview' \
              --set gateway.auth.key='N0vb6CKyPXtDTfSf6AL5hTVL/RKfPx1FIvHAkDgsdlqbYuEMRhGtsc/25ELnywlDHJV5Tqh/aarmDJF4eAo8dg==' \
-             azure-apim-gateway/azure-api-management-gateway
+             --install azure-apim-gateway/azure-api-management-gateway
