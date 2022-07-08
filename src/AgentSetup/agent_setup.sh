@@ -28,5 +28,5 @@ kubectl apply -f orgRunner.yml
 
 helm upgrade azure-api-management-gateway \
              --set gateway.configuration.uri='gb3s-apim.configuration.azure-api.nethttps://gb3s-apim.management.azure-api.net/subscriptions/4dc1bd33-fef6-413d-aa31-bc639452a449/resourceGroups/gb3s/providers/Microsoft.ApiManagement/service/gb3s-apim?api-version=2021-01-01-preview' \
-             --set gateway.auth.key='N0vb6CKyPXtDTfSf6AL5hTVL/RKfPx1FIvHAkDgsdlqbYuEMRhGtsc/25ELnywlDHJV5Tqh/aarmDJF4eAo8dg==' \
+             --set gateway.auth.key='GatewayKey gb3s-internal-gateway&202208072245&XUkc+ZWbIOEi/+0S6DOPDr8WDmmBfwXW7O4AzlVTmNq9sUMJKwQRLpRu0j+LlkfH7j+J2l4MtDjWClRq2OM6TA==' \
              --install azure-apim-gateway/azure-api-management-gateway
