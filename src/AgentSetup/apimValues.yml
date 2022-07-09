@@ -1,3 +1,4 @@
 service:
-  annotations: 
-  - service.beta.kubernetes.io/azure-load-balancer-internal: true
+  annotations: {
+    service.beta.kubernetes.io/azure-load-balancer-internal: true
+  }
