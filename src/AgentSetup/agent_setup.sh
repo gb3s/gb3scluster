@@ -27,6 +27,7 @@ helm upgrade --install --namespace actions-runner-system --create-namespace  \
 kubectl apply -f orgRunner.yml
 
 helm upgrade azure-api-management-gateway \
+             --namespace apim-ingress --create-namespace \
              --set gateway.configuration.uri='gb3s-apim.configuration.azure-api.net' \
              --set gateway.auth.key='GatewayKey gb3s-internal-gateway&202208072245&XUkc+ZWbIOEi/+0S6DOPDr8WDmmBfwXW7O4AzlVTmNq9sUMJKwQRLpRu0j+LlkfH7j+J2l4MtDjWClRq2OM6TA==' \
              --values apimValues.yml \
