@@ -1,7 +1,7 @@
 
 
 resource "azurerm_resource_group" "jumpbox" {
-    name = "${var.cluster_name}-jump"
+    name     = "${var.cluster_name}-jump"
     location = var.location
 }
 

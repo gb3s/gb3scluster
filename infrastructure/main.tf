@@ -41,6 +41,20 @@ module "aks" {
   }
 }
 
+module "apim" {
+  source = "./apim"
+
+  location = var.location
+  cluster_name = var.cluster_name
+  cluster_group = module.aks.cluster_group
+  keyvault_id = module.keyvault.keyavult_id
+  network = {
+    name  = azurerm_virtual_network.network.name
+    group = azurerm_resource_group.network.name
+    id    = azurerm_virtual_network.network.id
+  }
+}
+
 module "acr" {
   source = "./acr"
   

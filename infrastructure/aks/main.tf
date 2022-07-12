@@ -13,9 +13,9 @@ resource "azurerm_user_assigned_identity" "cluster_id" {
 resource "azurerm_subnet" "agentnet" {
   name = "agent-nodepool"
   enforce_private_link_endpoint_network_policies = true
-  resource_group_name = var.network.group
+  resource_group_name  = var.network.group
   virtual_network_name = var.network.name
-  address_prefixes = [ "10.0.1.0/24" ]
+  address_prefixes     = [ "10.0.1.0/24" ]
 }
 
 resource "azurerm_private_dns_zone" "cluster_dns" {
@@ -60,13 +60,13 @@ resource "azurerm_role_assignment" "sub_read_role_assignment" {
 }
 
 resource "azurerm_kubernetes_cluster" "cluster" {
-  name = "${var.cluster_name}"
-  location = azurerm_resource_group.group.location
-  resource_group_name = azurerm_resource_group.group.name
-  private_cluster_enabled = true
-  private_dns_zone_id = azurerm_private_dns_zone.cluster_dns.id
+  name                       = "${var.cluster_name}"
+  location                   = azurerm_resource_group.group.location
+  resource_group_name        = azurerm_resource_group.group.name
+  private_cluster_enabled    = true
+  private_dns_zone_id        = azurerm_private_dns_zone.cluster_dns.id
   dns_prefix_private_cluster = "${var.cluster_name}-cluster"
-  node_resource_group = "${var.cluster_name}-nodes"
+  node_resource_group        = "${var.cluster_name}-nodes"
 
   kubelet_identity {
     client_id = azurerm_user_assigned_identity.cluster_id.client_id
@@ -79,9 +79,9 @@ resource "azurerm_kubernetes_cluster" "cluster" {
   }
 
   default_node_pool {
-    name       = "agents"
-    node_count = 1
-    vm_size    = "Standard_D2_v2"
+    name           = "agents"
+    node_count     = 1
+    vm_size        = "Standard_D2_v2"
     vnet_subnet_id = azurerm_subnet.agentnet.id
 
   }
@@ -96,7 +96,7 @@ resource "azurerm_kubernetes_cluster" "cluster" {
   }
 
   identity {
-    type = "UserAssigned"
+    type         = "UserAssigned"
     identity_ids = [ azurerm_user_assigned_identity.cluster_id.id ]
   }
 }
@@ -105,3 +105,6 @@ output "cluster_identity" {
   value = azurerm_user_assigned_identity.cluster_id.principal_id
 }
 
+output "cluster_group" {
+  value = azurerm_resource_group.group.name
+}

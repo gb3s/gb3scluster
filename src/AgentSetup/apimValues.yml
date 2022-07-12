@@ -4,3 +4,6 @@ service:
     service.beta.kubernetes.io/azure-load-balancer-internal: "true",
     service.beta.kubernetes.io/azure-load-balancer-internal-subnet: "internal"
   }
+k8s:
+  ingress:
+    enabled: true

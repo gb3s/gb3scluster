@@ -1,6 +1,6 @@
 
 resource "azurerm_resource_group" "bastion" {
-  name = "${var.cluster_name}-bastion"
+  name     = "${var.cluster_name}-bastion"
   location = var.location
 }
 
