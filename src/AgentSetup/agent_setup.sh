@@ -33,4 +33,4 @@ helm upgrade azure-api-management-gateway \
              --values apimValues.yml \
              --install azure-apim-gateway/azure-api-management-gateway
 
-kubectl apply -f apimRBAC.yml -n apim-ingress
+kubectl apply -f apimRBAC.yml 
