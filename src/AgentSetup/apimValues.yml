@@ -6,3 +6,4 @@ service:
   }
 ingress:
   enabled: "true"
+  namespace: "apim-ingress"
