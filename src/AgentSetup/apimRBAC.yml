@@ -6,6 +6,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: default
+    namespace: apim-ingress
 roleRef:
   kind: ClusterRole
   name: cluster-admin
