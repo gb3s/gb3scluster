@@ -4,6 +4,3 @@ service:
     service.beta.kubernetes.io/azure-load-balancer-internal: "true",
     service.beta.kubernetes.io/azure-load-balancer-internal-subnet: "internal"
   }
-ingress:
-  enabled: "true"
-  namespace: "apim-ingress"

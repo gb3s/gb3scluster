@@ -32,3 +32,5 @@ helm upgrade azure-api-management-gateway \
              --set gateway.auth.key='GatewayKey gb3s-internal-gateway&202208082120&Ie+FkkpNLYET4AAE1dKa4yCLqoZTi0Qk/Auddr+jwr5naSyeQ2Bqf+I9k3qiQSg80Gc5P9sUNnLhOlgkk4xhlg==' \
              --values apimValues.yml \
              --install azure-apim-gateway/azure-api-management-gateway
+
+kubectl apply -f .\apimRBAC.yml -n apim-ingress
