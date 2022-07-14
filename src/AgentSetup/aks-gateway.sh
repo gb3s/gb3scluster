@@ -5,9 +5,8 @@ helm init --tiller-namespace kube-system --service-account tiller-sa
 helm repo add application-gateway-kubernetes-ingress https://appgwingress.blob.core.windows.net/ingress-azure-helm-package/
 helm repo update
 
-helm upgrade application-gateway-kubernetes-ingress/ingress-azure \
+helm upgrade ingress-azure application-gateway-kubernetes-ingress/ingress-azure \
      --install \ 
-     ingress-azure \
      --namespace apim-ingress \
      --debug \
     #  --set appgw.name=applicationgatewayABCD \
