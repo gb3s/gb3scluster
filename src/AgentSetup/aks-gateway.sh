@@ -3,7 +3,6 @@ helm repo add application-gateway-kubernetes-ingress https://appgwingress.blob.c
 helm repo update
 
 helm install \
-     --name ingress-azure \
      --namespace apim-ingress \
      --debug \
     #  --set appgw.name=applicationgatewayABCD \
