@@ -4,7 +4,7 @@ helm repo update
 
 helm upgrade application-gateway-kubernetes-ingress/ingress-azure \
      --install \ 
-     --name ingress-azure \
+     ingress-azure \
      --namespace apim-ingress \
      --debug \
     #  --set appgw.name=applicationgatewayABCD \
