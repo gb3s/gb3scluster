@@ -1,3 +1,7 @@
+
+helm repo add application-gateway-kubernetes-ingress https://appgwingress.blob.core.windows.net/ingress-azure-helm-package/
+helm repo update
+
 helm install ./helm/ingress-azure \
      --name ingress-azure \
      --namespace apim-ingress \
