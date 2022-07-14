@@ -59,6 +59,13 @@ resource "azurerm_role_assignment" "sub_read_role_assignment" {
   principal_id         = azurerm_user_assigned_identity.cluster_id.principal_id
 }
 
+resource "azurerm_subnet" "ingress" {
+  name = "${var.cluster_name}-ingress"
+  resource_group_name  = var.network.group
+  virtual_network_name = var.network.name
+  address_prefixes     = [ "10.0.2.0/26" ]
+}
+
 resource "azurerm_kubernetes_cluster" "cluster" {
   name                       = "${var.cluster_name}"
   location                   = azurerm_resource_group.group.location
@@ -67,6 +74,11 @@ resource "azurerm_kubernetes_cluster" "cluster" {
   private_dns_zone_id        = azurerm_private_dns_zone.cluster_dns.id
   dns_prefix_private_cluster = "${var.cluster_name}-cluster"
   node_resource_group        = "${var.cluster_name}-nodes"
+
+  ingress_application_gateway {
+    gateway_name = "${var.cluster_name}-gateway"
+    subnet_id = azurerm_subnet.ingress.id
+  }
 
   kubelet_identity {
     client_id = azurerm_user_assigned_identity.cluster_id.client_id
