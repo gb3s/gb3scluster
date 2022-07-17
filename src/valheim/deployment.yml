@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: valheim-server
+spec:
+  selector:
+    matchLabels:
+      app: valheim-server
+  template:
+    metadata:
+      labels:
+        app: valheim-server
+    spec:
+      containers:
+      - image: "lloesche/valheim-server:latest"
+        name: valheim-server
+        volumeMounts:
+        - name: gamefiles
+          mountPath: /config
+        - name: gamefiles
+          mountPath: /opt/valheim
+        env:
+        - name: "SERVER_NAME"
+          value: "BigChillin"
+        - name: "VALHEIM_PLUS"
+          value: "true"
+        - name: "WORLD_NAME"
+          value: "Alethekar"
+        - name: "SERVER_PASS"
+          value: ""
+        - name: "SERVER_Port"
+          value: "2456"
+        - name: "DISCORD_WEBHOOK"
+          value: "https://discord.com/api/webhooks/952672806204735549/mJj87vgS2s4Vp39MQQsihGWY7qi2bXVC38Qb-mSerfdPg5x0Hix2cJMa7r00Wk0upK2k"
+        - name: "VALHEIM_LOG_FILTER_CONTAINS_Spawned"
+          value: "Got character ZDOID from"
+        - name: "ON_VALHEIM_LOG_FILTER_CONTAINS_Spawned"
+          value: '{ read l; l=${l//*ZDOID from /}; l=${l// :*/}; msg="Player $l spawned into the world"; curl -sfSL -X POST -H "Content-Type: application/json" -d "{\"username\":\"Valheim\",\"content\":\"$msg\"}" "$DISCORD_WEBHOOK"; }'
+        - name: "SUPERVISOR_HTTP"
+          value: "true"
+        ports:
+        - containerPort: 2456
+          protocol: UDP
+          name: gameport
+        - containerPort: 9001
+          protocol: TCP
+          name: supervisor
+      volumes:
+      - name: gamefiles
+        azureFile:
+          secretName: storage-secret
+          shareName: valheim
+          readOnly: false
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: storage-secret
+type: Opaque
+data:
+  azurestorageaccountname: Z2JhYmVz
+  azurestorageaccountkey: K1gzaUJrRHNzVG9XRUVKZEx3bmRmZDFFbkFxTlV6ZDdvTG0xVlZ4ZnpBS2lXdGc0RmhnNEpiaVRRdW9MZkJmdzNvSjRZeStkd3ZuUytBU3Qzd3VHSmc9PQ==
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: valheim-server
+spec:
+  ports:
+  - name: gameport
+    port: 2456
+    targetPort: 2456
+    protocol: UDP
+  type: LoadBalancer
+  selector:
+    app: valheim-server
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: valheim-supervisor
+spec:
+  ports:
+  - name: supervisor
+    port: 9001
+    targetPort: 9001
+    protocol: TCP
+  type: LoadBalancer
+  selector:
+    app: valheim-server
