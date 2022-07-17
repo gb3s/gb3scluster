@@ -5,6 +5,8 @@ helm repo add azure-apim-gateway https://azure.github.io/api-management-self-hos
 
 helm repo update
 
+cluster_name=gb3s
+
 helm upgrade aad-pod-identity aad-pod-identity/aad-pod-identity \
   --namespace aad-identity-system --create-namespace \
   --set nmi.allowNetworkPluginKubenet=true \
@@ -17,6 +19,19 @@ helm upgrade \
   --version v1.8.2 \
   --set installCRDs=true \
   --install
+
+###Actions Runner Image Setup
+
+az acr login -n "$cluster_name"acr
+
+docker build -t "$cluster_name"runner:latest .
+
+docker tag "$cluster_name"\runner:latest ""$cluster_name"acr.azurecr.io/"$cluseter_name"/runner:latest"
+
+docker push "$cluster_name"/runeer:latest
+
+##Actions Runner Setup
+gb3s_clientId=$(az identity show -n "$cluster_name-cluster" -g $cluster_name)
 
 kubectl apply -f agentIdentity.yml -n actions-runner-system
 

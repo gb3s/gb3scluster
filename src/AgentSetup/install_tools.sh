@@ -4,4 +4,6 @@ sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
 curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 
+sudo apt-get install docker.io
+
 bash get_helm.sh
