@@ -23,11 +23,12 @@ helm upgrade \
 ###Actions Runner Image Setup
 bash action_runner_image_setup.sh
 
-##Actions Runner Setup
+###Actions Runner Identity Setup
 bash action_runner_identity_setup.sh
 
 helm upgrade --install --namespace actions-runner-system --create-namespace  \
   --wait actions-runner-controller actions-runner-controller/actions-runner-controller \
   --values values.yml
-  
-kubectl apply -f orgRunner.yml
+
+###Actions Runner Agent Setup  
+bash action_runner_agent_setup.sh
