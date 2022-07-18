@@ -10,9 +10,9 @@ echo $cluster_name
 echo $id
 echo $clientId
 
-sudo sed -i "s#CLUSTER_NAME#$cluster_name#g" "$cluster_name"Identity.yml
-sudo sed -i "s#CLIENTID#$clientId#g"         "$cluster_name"Identity.yml
-sudo sed -i "s#RESOURCEID#$id#g"             "$cluster_name"Identity.yml
+sudo sed -i "s#CLUSTER_NAME#$cluster_name#g" "$cluster_name"_action_runner_identity.yml
+sudo sed -i "s#CLIENTID#$clientId#g"         "$cluster_name"_action_runner_identity.yml
+sudo sed -i "s#RESOURCEID#$id#g"             "$cluster_name"_action_runner_identity.yml
 
 kubectl apply -f "$cluster_name"_action_runner_identity.yml -n actions-runner-system
 
