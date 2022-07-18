@@ -4,7 +4,7 @@ metadata:
   name: actions-runner-controller-github-webhook-server
   namespace: actions-runner-system
   annotations:
-    kubernetes.io/ingress.class: azure/application-gateway
+    kubernetes.io/ingress.class: "azure/application-gateway"
     appgw.ingress.kubernetes.io/backend-protocol: "http"
 spec:
   rules:
@@ -15,6 +15,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: github-webhook-server
+            name: actions-runner-controller-github-webhook-server
             port:
               number: 80
