@@ -29,7 +29,7 @@ sudo docker push "$cluster_name"/runner:latest
 ##Actions Runner Setup
 bash action_runner_setup.sh
 
-kubectl apply -f "$cluster_name"Identity.yml.yml -n actions-runner-system
+kubectl apply -f "$cluster_name"Identity.yml -n actions-runner-system
 
 helm upgrade --install --namespace actions-runner-system --create-namespace  \
   --wait actions-runner-controller actions-runner-controller/actions-runner-controller \
