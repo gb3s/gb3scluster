@@ -9,6 +9,7 @@ metadata:
 spec:
   rules:
     - http:
+      host: agents.gbabes.org
         paths:
           - path: /actions-runner-controller-github-webhook-server
             pathType: Prefix
