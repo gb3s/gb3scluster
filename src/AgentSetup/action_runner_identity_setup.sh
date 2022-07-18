@@ -15,3 +15,5 @@ sudo sed -i "s#CLIENTID#$clientId#g"         "$cluster_name"Identity.yml
 sudo sed -i "s#RESOURCEID#$id#g"             "$cluster_name"Identity.yml
 
 kubectl apply -f "$cluster_name"_action_runner_identity.yml -n actions-runner-system
+
+sudo rm "$cluster_name"_action_runner_identity.yml
