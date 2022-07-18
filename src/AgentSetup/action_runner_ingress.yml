@@ -9,8 +9,8 @@ metadata:
 spec:
   ingressClassName: azure/application-gateway
   rules:
-    - http:
-      host: agents.gbabes.org
+    - host: agents.gbabes.org
+      http:
         paths:
           - path: /actions-runner-controller-github-webhook-server
             pathType: Prefix
