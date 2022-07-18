@@ -1,12 +1,7 @@
-resource "azurerm_resource_group" "keyvault_group" {
-  name     = "${var.cluster_name}-keyvault"
-  location = var.location
-}
-
 resource "azurerm_key_vault" "cluster_vault" {
   name                        = "${var.cluster_name}-keyvault"
   location                    = azurerm_resource_group.keyvault_group.location
-  resource_group_name         = azurerm_resource_group.keyvault_group.name
+  resource_group_name         = var.cluster.name
   enabled_for_disk_encryption = false
   tenant_id                   = var.current.tenant_id
   soft_delete_retention_days  = 7
@@ -26,13 +21,13 @@ resource "azurerm_subnet" "vaultnet" {
 
 resource "azurerm_private_dns_zone" "vault_dns" {
   name                = "privatelink.vaultcore.azure.net"
-  resource_group_name = azurerm_resource_group.keyvault_group.name
+  resource_group_name = var.cluster.name
 }
 
 resource "azurerm_private_endpoint" "vault_pe" {
   name                = "${var.cluster_name}-vault-endpoint"
-  location            = azurerm_resource_group.keyvault_group.location
-  resource_group_name = azurerm_resource_group.keyvault_group.name
+  location            = var.cluster.location
+  resource_group_name = var.cluster.name
   subnet_id           = azurerm_subnet.vaultnet.id
 
   private_dns_zone_group {
@@ -50,7 +45,7 @@ resource "azurerm_private_endpoint" "vault_pe" {
 
 resource "azurerm_private_dns_zone_virtual_network_link" "vault_dns_link" {
   name                  = "${var.cluster_name}-link-${azurerm_key_vault.cluster_vault.name}"
-  resource_group_name   = azurerm_resource_group.keyvault_group.name
+  resource_group_name   = var.cluster.name
   private_dns_zone_name = azurerm_private_dns_zone.vault_dns.name
   virtual_network_id    = var.network.id
   registration_enabled  = false

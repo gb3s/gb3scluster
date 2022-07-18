@@ -13,6 +13,11 @@ provider "azurerm" {
 
 data "azurerm_client_config" "current" {}
 
+resource "azurerm_resource_group" "group" {
+  name     = "${var.cluster_name}"
+  location = var.location
+}
+
 resource "azurerm_resource_group" "network" {
   name = "${var.cluster_name}-network"
   location = var.location
@@ -28,11 +33,16 @@ resource "azurerm_virtual_network" "network" {
 module "aks" {
   source = "./aks"
 
-  cluster_name = var.cluster_name
   location = var.location
   admin_user = var.admin_user
   subscription_id = data.azurerm_client_config.current.subscription_id
   keyvault_id = module.keyvault.keyavult_id
+
+  cluster = {
+    name     = azurerm_resource_group.group.name 
+    id       = azurerm_resource_group.group.id
+    location = azurerm_resource_group.group.location
+  }
 
   network = {
     group = azurerm_resource_group.network.name
@@ -49,6 +59,13 @@ module "acr" {
   cluster_name = var.cluster_name
   location = var.location
   admin_user = var.admin_user
+
+  cluster = {
+    name     = azurerm_resource_group.group.name 
+    id       = azurerm_resource_group.group.id
+    location = azurerm_resource_group.group.location
+  }
+
   network = {
     name  = azurerm_virtual_network.network.name
     group = azurerm_resource_group.network.name
@@ -56,15 +73,21 @@ module "acr" {
   }
 }
 
-module "jumpbox" {
-  source = "./jumpbox"
+module "keyvault" {
+  source = "./keyvault"
 
-  cluster_name = var.cluster_name
-  location = var.location
-  admin_user = var.admin_user
+  current = data.azurerm_client_config.current
+
+  cluster = {
+    name     = azurerm_resource_group.group.name 
+    id       = azurerm_resource_group.group.id
+    location = azurerm_resource_group.group.location
+  }
+
   network = {
     name  = azurerm_virtual_network.network.name
     group = azurerm_resource_group.network.name
+    id    = azurerm_virtual_network.network.id
   }
 }
 
@@ -80,16 +103,23 @@ module "bastion" {
   }
 }
 
-module "keyvault" {
-  source = "./keyvault"
 
-  current = data.azurerm_client_config.current
+module "jumpbox" {
+  source = "./jumpbox"
+
   cluster_name = var.cluster_name
   location = var.location
   admin_user = var.admin_user
+
+  bast_bast_access_group = {
+    name = module.bastion.bast_access_group_name
+    location = module.bastion.bast_access_group_location
+  }
+   
   network = {
     name  = azurerm_virtual_network.network.name
     group = azurerm_resource_group.network.name
-    id    = azurerm_virtual_network.network.id
   }
 }
+
+

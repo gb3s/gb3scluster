@@ -30,3 +30,11 @@ resource azurerm_bastion_host bastion {
     public_ip_address_id = azurerm_public_ip.bastion_ip.id
   }
 }
+
+output "bast_access_group_name" {
+  value = azurerm_resource_group.bastion.name
+}
+
+output "bast_access_group_location" {
+  value = azurerm_resource_group.bastion.location
+}

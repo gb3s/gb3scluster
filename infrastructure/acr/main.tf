@@ -1,19 +1,14 @@
-resource "azurerm_resource_group" "group" {
-  name     = "${var.cluster_name}-registry"
-  location = var.location
-}
-
 resource "azurerm_user_assigned_identity" "registry_identity" {
-  resource_group_name = azurerm_resource_group.group.name
-  location            = azurerm_resource_group.group.location
+  resource_group_name = var.cluster.name
+  location            = var.cluster.location
 
   name = "${var.cluster_name}-registry-id"
 }
 
 resource "azurerm_container_registry" "registry" {
   name                = "${var.cluster_name}acr"
-  resource_group_name = azurerm_resource_group.group.name
-  location            = azurerm_resource_group.group.location
+  resource_group_name = var.cluster.name
+  location            = var.cluster.location
   public_network_access_enabled = false
   sku                 = "Premium"
 
@@ -35,13 +30,13 @@ resource "azurerm_subnet" "regnet" {
 
 resource "azurerm_private_dns_zone" "registry_dns" {
   name                = "privatelink.azurecr.io"
-  resource_group_name = azurerm_resource_group.group.name
+  resource_group_name = var.cluster.name
 }
 
 resource "azurerm_private_endpoint" "registry_pe" {
   name                = "${var.cluster_name}-registry-endpoint"
-  location            = azurerm_resource_group.group.location
-  resource_group_name = azurerm_resource_group.group.name
+  location            = var.cluster.location
+  resource_group_name = var.cluster.name
   subnet_id           = azurerm_subnet.regnet.id
 
   private_dns_zone_group {
@@ -59,7 +54,7 @@ resource "azurerm_private_endpoint" "registry_pe" {
 
 resource "azurerm_private_dns_zone_virtual_network_link" "registry_dns_link" {
   name                  = "${var.cluster_name}-link-${azurerm_container_registry.registry.name}"
-  resource_group_name   = azurerm_resource_group.group.name
+  resource_group_name   = var.cluster.name
   private_dns_zone_name = azurerm_private_dns_zone.registry_dns.name
   virtual_network_id    = var.network.id
   registration_enabled  = false

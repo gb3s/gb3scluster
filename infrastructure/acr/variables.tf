@@ -1,9 +1,10 @@
-variable "cluster_name" {
-    type = string
-}
-
-variable "location" {
-    type = string
+variable "cluster" {
+    description = "Cluster Details"
+    type = object({
+      name = string
+      id = string
+      location = string
+    })
 }
 
 variable "admin_user" {

@@ -1,13 +1,12 @@
-variable "cluster_name" {
-    type = string
-}
+variable "current" {}
 
-variable "location" {
-    type = string
-}
-
-variable "admin_user" {
-    type = string
+variable "cluster" {
+    description = "Cluster Details"
+    type = object({
+      name = string
+      id = string
+      location = string
+    })
 }
 
 variable "network" {
@@ -18,6 +17,3 @@ variable "network" {
     })
 }
 
-variable "current" {
-  
-}

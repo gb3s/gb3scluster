@@ -1,10 +1,3 @@
-
-
-resource "azurerm_resource_group" "jumpbox" {
-    name     = "${var.cluster_name}-jump"
-    location = var.location
-}
-
 resource "azurerm_subnet" "jumpnet" {
   name                 = "internal"
   resource_group_name  = var.network.group
@@ -14,9 +7,8 @@ resource "azurerm_subnet" "jumpnet" {
 
 resource "azurerm_network_interface" "jumpbox_nic" {
   name                = "${var.cluster_name}-jumpbox-nic"
-  location            = azurerm_resource_group.jumpbox.location
-  resource_group_name = azurerm_resource_group.jumpbox.name
-
+  resource_group_name = var.bast_access_group.name
+  location            = var.bast_access_group.location
   ip_configuration {
     name                          = "internal"
     subnet_id                     = azurerm_subnet.jumpnet.id
@@ -26,8 +18,8 @@ resource "azurerm_network_interface" "jumpbox_nic" {
 
 resource "azurerm_linux_virtual_machine" "jumpbox" {
   name                = "${var.cluster_name}-jumpbox"
-  resource_group_name = azurerm_resource_group.jumpbox.name
-  location            = azurerm_resource_group.jumpbox.location
+  resource_group_name = var.bast_access_group.name
+  location            = var.bast_access_group.location
   size                = "Standard_B2s"
   admin_username      = "${var.admin_user}"
   network_interface_ids = [

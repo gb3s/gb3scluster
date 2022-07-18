@@ -1,11 +1,6 @@
-resource "azurerm_resource_group" "group" {
-  name     = "${var.cluster_name}"
-  location = var.location
-}
-
 resource "azurerm_user_assigned_identity" "cluster_id" {
-  resource_group_name = azurerm_resource_group.group.name
-  location            = azurerm_resource_group.group.location
+  resource_group_name = var.cluster.name
+  location            = var.cluster.location
 
   name = "${var.cluster_name}-cluster"
 }
@@ -20,7 +15,7 @@ resource "azurerm_subnet" "agentnet" {
 
 resource "azurerm_private_dns_zone" "cluster_dns" {
   name                = "privatelink.eastus.azmk8s.io"
-  resource_group_name = azurerm_resource_group.group.name
+  resource_group_name = var.cluster.name
 }
 
 resource "azurerm_role_assignment" "dns_role_assignment" {
@@ -42,7 +37,7 @@ resource "azurerm_role_assignment" "node_group_role_assignment" {
 }
 
 resource "azurerm_role_assignment" "cluster_group_role_assignment" {
-  scope                = "/subscriptions/${var.subscription_id}/resourceGroups/${azurerm_resource_group.group.name}"
+  scope                = "/subscriptions/${var.subscription_id}/resourceGroups/${var.cluster.name}"
   role_definition_name = "Owner"
   principal_id         = azurerm_user_assigned_identity.cluster_id.principal_id
 }
@@ -68,8 +63,8 @@ resource "azurerm_subnet" "ingress" {
 
 resource "azurerm_kubernetes_cluster" "cluster" {
   name                       = "${var.cluster_name}"
-  location                   = azurerm_resource_group.group.location
-  resource_group_name        = azurerm_resource_group.group.name
+  location                   = var.cluster.location
+  resource_group_name        = var.cluster.name
   private_cluster_enabled    = true
   private_dns_zone_id        = azurerm_private_dns_zone.cluster_dns.id
   dns_prefix_private_cluster = "${var.cluster_name}-cluster"
