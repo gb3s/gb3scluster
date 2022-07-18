@@ -7,10 +7,6 @@ variable "cluster" {
     })
 }
 
-variable "admin_user" {
-    type = string
-}
-
 variable "network" {
     type = object({
         name  = string

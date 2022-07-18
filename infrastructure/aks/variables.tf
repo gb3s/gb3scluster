@@ -6,19 +6,9 @@ variable "cluster" {
       location = string
     })
 }
-
-variable "cluster_group" {
-
-}
-
-variable "admin_user" {
-    type = string
-}
-
 variable "keyvault_id" {
     type = string
 }
-
 variable "network" {
   description = "Values for Subnets, and network resources"
   type = object({
@@ -27,7 +17,6 @@ variable "network" {
     group = string
   })
 }
-
 variable "subscription_id" {
 }
 
