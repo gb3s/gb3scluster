@@ -1,0 +1,14 @@
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: RunnerDeployment
+metadata:
+  name: CLUSTER_NAME-runner
+  namespace: actions-runner-system
+spec:
+  replicas: 1
+  template:  
+    metadata:
+      labels: 
+        aadpodidbinding: CLUSTER_NAME-cluster
+    spec:
+      repository: CLUSTER_NAME/CLUSTER_NAMEcluster
+      image: CLUSTER_NAMEacr.azurecr.io/CLUSTER_NAME/runner:latest

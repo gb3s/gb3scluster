@@ -1,0 +1,18 @@
+# runner.yaml
+apiVersion: "aadpodidentity.k8s.io/v1"
+kind: AzureIdentity
+metadata:
+  name: CLUSTER_NAME-cluster-msi
+spec:
+  type: 0
+  resourceID: RESOURCEID
+  clientID: CLIENTID
+---
+apiVersion: "aadpodidentity.k8s.io/v1"
+kind: AzureIdentityBinding
+metadata:
+  name: CLUSTER_NAME-cluster-msi-binding
+spec:
+  azureIdentity: "CLUSTER_NAME-cluster-msi"
+  selector: "CLUSTER_NAME-cluster"
+---
