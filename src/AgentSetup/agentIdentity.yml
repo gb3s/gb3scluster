@@ -2,17 +2,17 @@
 apiVersion: "aadpodidentity.k8s.io/v1"
 kind: AzureIdentity
 metadata:
-  name: gb3s-cluster-msi
+  name: CLUSTER_NAME-cluster-msi
 spec:
   type: 0
-  resourceID: $GB3S_RESOURCEID
-  clientID: $GB3S_CLIENTID
+  resourceID: RESOURCEID
+  clientID: CLIENTID
 ---
 apiVersion: "aadpodidentity.k8s.io/v1"
 kind: AzureIdentityBinding
 metadata:
-  name: gb3s-cluster-msi-binding
+  name: CLUSTER_NAME-cluster-msi-binding
 spec:
-  azureIdentity: "gb3s-cluster-msi"
-  selector: "gb3s-cluster"
+  azureIdentity: "CLUSTER_NAME-cluster-msi"
+  selector: "CLUSTER_NAME-cluster"
 ---

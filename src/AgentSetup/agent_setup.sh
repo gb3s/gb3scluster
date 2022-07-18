@@ -21,19 +21,15 @@ helm upgrade \
   --install
 
 ###Actions Runner Image Setup
-
 az acr login -n "$cluster_name"acr
-
 docker build -t "$cluster_name"runner:latest .
-
 docker tag "$cluster_name"\runner:latest ""$cluster_name"acr.azurecr.io/"$cluseter_name"/runner:latest"
-
-docker push "$cluster_name"/runeer:latest
+docker push "$cluster_name"/runner:latest
 
 ##Actions Runner Setup
-gb3s_clientId=$(az identity show -n "$cluster_name-cluster" -g $cluster_name)
+bash action_runner_setup.sh
 
-kubectl apply -f agentIdentity.yml -n actions-runner-system
+kubectl apply -f "$cluster_name"Identity.yml.yml -n actions-runner-system
 
 helm upgrade --install --namespace actions-runner-system --create-namespace  \
   --wait actions-runner-controller actions-runner-controller/actions-runner-controller \
