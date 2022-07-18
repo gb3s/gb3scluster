@@ -21,10 +21,9 @@ helm upgrade \
   --install
 
 ###Actions Runner Image Setup
-az acr login -n "$cluster_name"acr
-docker build -t "$cluster_name"runner:latest .
-docker tag "$cluster_name"\runner:latest ""$cluster_name"acr.azurecr.io/"$cluseter_name"/runner:latest"
-docker push "$cluster_name"/runner:latest
+sudo docker build -t "$cluster_name"runner:latest .
+sudo docker tag "$cluster_name"\runner:latest ""$cluster_name"acr.azurecr.io/"$cluseter_name"/runner:latest"
+sudo docker push "$cluster_name"/runner:latest
 
 ##Actions Runner Setup
 bash action_runner_setup.sh
