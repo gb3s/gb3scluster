@@ -8,13 +8,13 @@ metadata:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
 spec:
   rules:
-    - http:
-      host: agents.gbabes.org
-        paths:
-          - path: /actions-runner-controller-github-webhook-server
-            pathType: Prefix
-            backend:
-              service:
-                name: actions-runner-controller-github-webhook-server
-                port:
-                  number: 80
+  - host: agents.gbabes.org
+    http:
+      paths:
+      - path: /actions-runner-controller-github-webhook-server
+        pathType: Prefix
+        backend:
+          service:
+            name: actions-runner-controller-github-webhook-server
+            port:
+              number: 80
