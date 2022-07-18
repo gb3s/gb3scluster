@@ -4,12 +4,13 @@ metadata:
   name: actions-runner-controller-github-webhook-server
   namespace: actions-runner-system
   annotations:
+    kubernetes.io/ingress.class: azure/application-gateway
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
 spec:
   ingressClassName: azure/application-gateway
   rules:
-    - host: agents.gbabes.org
-      http:
+    - http:
+      host: agents.gbabes.org
         paths:
           - path: /actions-runner-controller-github-webhook-server
             pathType: Prefix
