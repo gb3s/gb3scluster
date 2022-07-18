@@ -7,7 +7,6 @@ metadata:
     kubernetes.io/ingress.class: azure/application-gateway
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
 spec:
-  ingressClassName: "azure/application-gateway"
   rules:
     - http:
         paths:
