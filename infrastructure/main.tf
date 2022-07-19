@@ -36,9 +36,10 @@ module "aks" {
     location = azurerm_resource_group.group.location
   }
   network = {
-    group = azurerm_resource_group.network.name
-    name  = azurerm_virtual_network.network.name
-    id    = azurerm_virtual_network.network.id
+    group    = azurerm_resource_group.network.name
+    group_id = azurerm_resource_group.network.id 
+    name     = azurerm_virtual_network.network.name
+    id       = azurerm_virtual_network.network.id
   }
   keyvault_id = module.keyvault.keyavult_id
 }

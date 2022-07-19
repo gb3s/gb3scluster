@@ -15,6 +15,7 @@ variable "network" {
     id = string 
     name = string
     group = string
+    group_id = string
   })
 }
 variable "subscription_id" {

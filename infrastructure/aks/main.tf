@@ -16,9 +16,9 @@ resource "azurerm_role_assignment" "dns_role_assignment" {
   principal_id         = azurerm_user_assigned_identity.cluster_id.principal_id
 }
 
-resource "azurerm_role_assignment" "network_role_assignment" {
-  scope                = var.network.id
-  role_definition_name = "Network Contributor"
+resource "azurerm_role_assignment" "network_group_assignment" {
+  scope                = var.network.group_id
+  role_definition_name = "Owner"
   principal_id         = azurerm_user_assigned_identity.cluster_id.principal_id
 }
 
@@ -122,6 +122,11 @@ resource "azurerm_kubernetes_cluster" "cluster" {
     type         = "UserAssigned"
     identity_ids = [ azurerm_user_assigned_identity.cluster_id.id ]
   }
+
+  depends_on = [
+    azurerm_role_assignment.cluster_group_role_assignment,
+    azurerm_role_assignment.network_group_assignment
+  ]
 }
 
 output "cluster_identity" {
