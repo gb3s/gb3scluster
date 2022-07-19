@@ -12,3 +12,20 @@ spec:
     spec:
       repository: CLUSTER_NAME/CLUSTER_NAMEcluster
       image: CLUSTER_NAMEacr.azurecr.io/CLUSTER_NAME/runner:latest
+---
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: HorizontalRunnerAutoscaler
+metadata:
+  name: CLUSTER_NAME-runners
+spec:
+  scaleDownDelaySecondsAfterScaleOut: 300
+  minReplicas: 0
+  maxReplicas: 3
+  scaleTargetRef:
+    name: CLUSTER_NAME-runners
+    # Uncomment the below in case the target is not RunnerDeployment but RunnerSet
+    #kind: RunnerSet
+  scaleUpTriggers:
+  - githubEvent:
+      workflowJob: {}
+    duration: "30m"
