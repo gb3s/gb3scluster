@@ -7,6 +7,6 @@ curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 sudo apt-get install docker.io
 
 sudo apt get install linuxbrew-wrapper
-sudo brew install k9s
+brew install k9s
 
 bash get_helm.sh
