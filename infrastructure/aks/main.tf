@@ -2,15 +2,7 @@ resource "azurerm_user_assigned_identity" "cluster_id" {
   resource_group_name = var.cluster.name
   location            = var.cluster.location
 
-  name = "${var.cluster_name}-cluster"
-}
-
-resource "azurerm_subnet" "agentnet" {
-  name = "agent-nodepool"
-  enforce_private_link_endpoint_network_policies = true
-  resource_group_name  = var.network.group
-  virtual_network_name = var.network.name
-  address_prefixes     = [ "10.0.1.0/24" ]
+  name = "${var.cluster.name}-cluster"
 }
 
 resource "azurerm_private_dns_zone" "cluster_dns" {
@@ -54,24 +46,48 @@ resource "azurerm_role_assignment" "sub_read_role_assignment" {
   principal_id         = azurerm_user_assigned_identity.cluster_id.principal_id
 }
 
+resource "azurerm_route_table" "cluster" {
+  name = "${var.cluster.name}-route-table"
+  resource_group_name = "${var.cluster.name}-network"
+  location = var.cluster.location
+}
+
+resource "azurerm_subnet" "agentnet" {
+  name = "agent-nodepool"
+  enforce_private_link_endpoint_network_policies = true
+  resource_group_name  = var.network.group
+  virtual_network_name = var.network.name
+  address_prefixes     = [ "10.0.1.0/24" ]
+}
+
+resource "azurerm_subnet_route_table_association" "agent-rt-asc" {
+  subnet_id      = azurerm_subnet.agentnet.id
+  route_table_id = azurerm_route_table.cluster.id
+}
+
 resource "azurerm_subnet" "ingress" {
-  name = "${var.cluster_name}-ingress"
+  name = "${var.cluster.name}-ingress"
   resource_group_name  = var.network.group
   virtual_network_name = var.network.name
   address_prefixes     = [ "10.0.2.0/26" ]
 }
 
+resource "azurerm_subnet_route_table_association" "ingress-rt-asc" {
+  subnet_id      = azurerm_subnet.ingress.id
+  route_table_id = azurerm_route_table.cluster.id
+}
+
 resource "azurerm_kubernetes_cluster" "cluster" {
-  name                       = "${var.cluster_name}"
+  name                       = "${var.cluster.name}"
   location                   = var.cluster.location
   resource_group_name        = var.cluster.name
   private_cluster_enabled    = true
   private_dns_zone_id        = azurerm_private_dns_zone.cluster_dns.id
-  dns_prefix_private_cluster = "${var.cluster_name}-cluster"
-  node_resource_group        = "${var.cluster_name}-nodes"
+  dns_prefix_private_cluster = "${var.cluster.name}-cluster"
+  node_resource_group        = "${var.cluster.name}-nodes"
 
   ingress_application_gateway {
-    gateway_name = "${var.cluster_name}-gateway"
+    gateway_name = "${var.cluster.name}-gateway"
     subnet_id = azurerm_subnet.ingress.id
   }
 
@@ -110,8 +126,4 @@ resource "azurerm_kubernetes_cluster" "cluster" {
 
 output "cluster_identity" {
   value = azurerm_user_assigned_identity.cluster_id.principal_id
-}
-
-output "cluster_group" {
-  value = azurerm_resource_group.group.name
 }

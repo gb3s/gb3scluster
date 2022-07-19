@@ -1,6 +1,6 @@
 resource "azurerm_key_vault" "cluster_vault" {
-  name                        = "${var.cluster_name}-keyvault"
-  location                    = azurerm_resource_group.keyvault_group.location
+  name                        = "${var.cluster.name}-keyvault"
+  location                    = var.cluster.location
   resource_group_name         = var.cluster.name
   enabled_for_disk_encryption = false
   tenant_id                   = var.current.tenant_id
@@ -12,7 +12,7 @@ resource "azurerm_key_vault" "cluster_vault" {
 }
 
 resource "azurerm_subnet" "vaultnet" {
-  name = "${var.cluster_name}-vaultnet"
+  name = "${var.cluster.name}-vaultnet"
   enforce_private_link_endpoint_network_policies = true
   resource_group_name  = var.network.group
   virtual_network_name = var.network.name
@@ -25,7 +25,7 @@ resource "azurerm_private_dns_zone" "vault_dns" {
 }
 
 resource "azurerm_private_endpoint" "vault_pe" {
-  name                = "${var.cluster_name}-vault-endpoint"
+  name                = "${var.cluster.name}-vault-endpoint"
   location            = var.cluster.location
   resource_group_name = var.cluster.name
   subnet_id           = azurerm_subnet.vaultnet.id
@@ -36,7 +36,7 @@ resource "azurerm_private_endpoint" "vault_pe" {
   }
 
   private_service_connection {
-    name                              = "${var.cluster_name}-vault-psc"
+    name                              = "${var.cluster.name}-vault-psc"
     private_connection_resource_id    = azurerm_key_vault.cluster_vault.id
     subresource_names = ["vault"]
     is_manual_connection              = false
@@ -44,7 +44,7 @@ resource "azurerm_private_endpoint" "vault_pe" {
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "vault_dns_link" {
-  name                  = "${var.cluster_name}-link-${azurerm_key_vault.cluster_vault.name}"
+  name                  = "${var.cluster.name}-link-${azurerm_key_vault.cluster_vault.name}"
   resource_group_name   = var.cluster.name
   private_dns_zone_name = azurerm_private_dns_zone.vault_dns.name
   virtual_network_id    = var.network.id

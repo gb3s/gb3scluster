@@ -2,11 +2,11 @@ resource "azurerm_user_assigned_identity" "registry_identity" {
   resource_group_name = var.cluster.name
   location            = var.cluster.location
 
-  name = "${var.cluster_name}-registry-id"
+  name = "${var.cluster.name}-registry-id"
 }
 
 resource "azurerm_container_registry" "registry" {
-  name                = "${var.cluster_name}acr"
+  name                = "${var.cluster.name}acr"
   resource_group_name = var.cluster.name
   location            = var.cluster.location
   public_network_access_enabled = false
@@ -21,7 +21,7 @@ resource "azurerm_container_registry" "registry" {
 }
 
 resource "azurerm_subnet" "regnet" {
-  name                 = "${var.cluster_name}-regnet"
+  name                 = "${var.cluster.name}-regnet"
   enforce_private_link_endpoint_network_policies = true
   resource_group_name  = var.network.group
   virtual_network_name = var.network.name
@@ -34,7 +34,7 @@ resource "azurerm_private_dns_zone" "registry_dns" {
 }
 
 resource "azurerm_private_endpoint" "registry_pe" {
-  name                = "${var.cluster_name}-registry-endpoint"
+  name                = "${var.cluster.name}-registry-endpoint"
   location            = var.cluster.location
   resource_group_name = var.cluster.name
   subnet_id           = azurerm_subnet.regnet.id
@@ -45,7 +45,7 @@ resource "azurerm_private_endpoint" "registry_pe" {
   }
 
   private_service_connection {
-    name                           = "${var.cluster_name}-registry-psc"
+    name                           = "${var.cluster.name}-registry-psc"
     private_connection_resource_id = azurerm_container_registry.registry.id
     subresource_names              = ["registry"]
     is_manual_connection           = false
@@ -53,7 +53,7 @@ resource "azurerm_private_endpoint" "registry_pe" {
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "registry_dns_link" {
-  name                  = "${var.cluster_name}-link-${azurerm_container_registry.registry.name}"
+  name                  = "${var.cluster.name}-link-${azurerm_container_registry.registry.name}"
   resource_group_name   = var.cluster.name
   private_dns_zone_name = azurerm_private_dns_zone.registry_dns.name
   virtual_network_id    = var.network.id

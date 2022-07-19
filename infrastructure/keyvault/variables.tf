@@ -1,5 +1,4 @@
 variable "current" {}
-
 variable "cluster" {
     description = "Cluster Details"
     type = object({
@@ -8,7 +7,6 @@ variable "cluster" {
       location = string
     })
 }
-
 variable "network" {
     type = object({
         name  = string
